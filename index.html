@@ -41,11 +41,16 @@
   .nav-right{display:flex; align-items:center; gap:16px; font-size:14px;}
   .nav-phone{font-weight:600; color:var(--gold-light);}
 
-  .lang-switch{display:flex; border:1px solid var(--line); border-radius:3px; overflow:hidden;}
-  .lang-btn{background:transparent; border:none; color:var(--grey); font-size:12.5px; font-weight:600; letter-spacing:.03em; padding:7px 11px; cursor:pointer; font-family:'Inter',sans-serif; transition:background .15s, color .15s;}
-  .lang-btn + .lang-btn{border-left:1px solid var(--line);}
-  .lang-btn.active{background:var(--gold); color:#161310;}
-  .lang-btn:not(.active):hover{color:var(--gold-light);}
+  .lang-switch{position:relative;}
+  .lang-globe-btn{background:transparent; border:1px solid var(--line); border-radius:4px; color:var(--cream); font-size:16px; padding:7px 12px; cursor:pointer; display:flex; align-items:center; gap:6px; font-family:'Inter',sans-serif;}
+  .lang-globe-btn:hover{border-color:var(--gold);}
+  .lang-globe-current{font-size:12px; font-weight:600; color:var(--gold-light); letter-spacing:.03em;}
+  .lang-dropdown{position:absolute; top:calc(100% + 8px); right:0; background:var(--bg-2); border:1px solid var(--line); border-radius:6px; min-width:170px; box-shadow:0 12px 30px -10px rgba(0,0,0,.5); overflow:hidden; display:none; z-index:100;}
+  .lang-dropdown.open{display:block;}
+  .lang-option{display:flex; align-items:center; gap:10px; padding:11px 14px; font-size:14px; color:var(--cream); cursor:pointer; transition:background .15s;}
+  .lang-option:hover{background:rgba(201,162,74,.12);}
+  .lang-option.active{color:var(--gold-light); background:rgba(201,162,74,.08);}
+  .lang-option .flag{font-size:18px;}
 
   .hero{padding:90px 24px 100px; border-bottom:1px solid var(--line); position:relative;}
   .hero-grid{max-width:1140px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:center;}
@@ -155,9 +160,14 @@
     <div class="nav-right">
       <a href="https://wa.me/992555600000" target="_blank" class="nav-phone">+992 55 560 00 00</a>
       <div class="lang-switch">
-        <button class="lang-btn active" data-lang="tg">TJ</button>
-        <button class="lang-btn" data-lang="ru">RU</button>
-        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-globe-btn" id="lang-globe-toggle" type="button">
+          <span>🌐</span><span class="lang-globe-current" id="lang-globe-current">TJ</span>
+        </button>
+        <div class="lang-dropdown" id="lang-dropdown">
+          <div class="lang-option active" data-lang="tg"><span class="flag">🇹🇯</span><span>Тоҷикӣ</span></div>
+          <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span><span>Русский</span></div>
+          <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span><span>English</span></div>
+        </div>
       </div>
       <a href="#contact" class="btn btn-gold" data-i18n="nav_cta">Тамос гирифтан</a>
     </div>
@@ -702,15 +712,34 @@ function setLanguage(lang){
       el.innerHTML = dict[key];
     }
   });
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
   });
+  const currentLabel = document.getElementById('lang-globe-current');
+  if(currentLabel) currentLabel.textContent = lang.toUpperCase();
   document.documentElement.setAttribute('lang', lang);
   try{ localStorage.setItem('somonmobi_lang', lang); }catch(e){}
 }
 
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+const langToggle = document.getElementById('lang-globe-toggle');
+const langDropdown = document.getElementById('lang-dropdown');
+if(langToggle && langDropdown){
+  langToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    langDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if(!langDropdown.contains(e.target) && e.target !== langToggle){
+      langDropdown.classList.remove('open');
+    }
+  });
+}
+
+document.querySelectorAll('.lang-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    setLanguage(opt.getAttribute('data-lang'));
+    langDropdown.classList.remove('open');
+  });
 });
 
 let savedLang = 'tg';
