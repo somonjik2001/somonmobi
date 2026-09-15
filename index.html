@@ -331,6 +331,13 @@
           <label style="font-size:12.5px; color:var(--grey); display:block; margin-bottom:6px;" data-i18n="mk_lbl_desc">Тавсиф (ҳолат, ранг ва ғайра)</label>
           <textarea id="mk-desc" rows="3" style="width:100%; background:var(--bg-2); border:1px solid var(--line); color:var(--cream); padding:11px; border-radius:3px; font-family:inherit; font-size:14px; resize:vertical;"></textarea>
         </div>
+        <div style="margin-bottom:20px;">
+          <label style="font-size:12.5px; color:var(--grey); display:block; margin-bottom:6px;" data-i18n="mk_lbl_image">Сурати телефон (ихтиёрӣ)</label>
+          <input id="mk-image" type="file" accept="image/*" style="width:100%; background:var(--bg-2); border:1px solid var(--line); color:var(--cream); padding:11px; border-radius:3px; font-family:inherit; font-size:13px;">
+          <div id="mk-image-preview" style="margin-top:10px; display:none;">
+            <img id="mk-image-preview-img" style="max-width:120px; max-height:120px; border-radius:4px; border:1px solid var(--line);">
+          </div>
+        </div>
         <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
           <button type="submit" class="btn btn-gold" data-i18n="mk_submit">Эълонро нашр кун</button>
           <span id="mk-form-status" style="font-size:13px; color:var(--grey);"></span>
@@ -486,7 +493,7 @@ async function loadListings(){
     wrap.innerHTML = data.map(item => `
       <div class="p-card">
         <div class="p-thumb">
-          <svg width="42" height="42" viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="2.5" stroke="#C9A24A" stroke-width="1.2"/><circle cx="12" cy="18.2" r="0.7" fill="#C9A24A"/></svg>
+          ${item.image_url ? `<img src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.phone_model)}" style="width:100%; height:100%; object-fit:cover; border-radius:3px;">` : `<svg width="42" height="42" viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="2.5" stroke="#C9A24A" stroke-width="1.2"/><circle cx="12" cy="18.2" r="0.7" fill="#C9A24A"/></svg>`}
         </div>
         <div class="p-name">${escapeHtml(item.phone_model)}</div>
         <div class="p-spec">${escapeHtml(item.description || '')}</div>
@@ -513,6 +520,18 @@ document.getElementById('mk-open-form-btn').addEventListener('click', () => {
   formWrap.style.display = formWrap.style.display === 'none' ? 'block' : 'none';
 });
 
+document.getElementById('mk-image').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  const previewWrap = document.getElementById('mk-image-preview');
+  const previewImg = document.getElementById('mk-image-preview-img');
+  if(file){
+    previewImg.src = URL.createObjectURL(file);
+    previewWrap.style.display = 'block';
+  }else{
+    previewWrap.style.display = 'none';
+  }
+});
+
 document.getElementById('mk-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const statusEl = document.getElementById('mk-form-status');
@@ -528,10 +547,25 @@ document.getElementById('mk-form').addEventListener('submit', async (e) => {
   };
 
   try{
+    const imageFile = document.getElementById('mk-image').files[0];
+    if(imageFile){
+      statusEl.textContent = 'Расм бор мешавад...';
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+      const { error: uploadError } = await sb.storage
+        .from('phone-images')
+        .upload(fileName, imageFile);
+      if(uploadError) throw uploadError;
+      const { data: urlData } = sb.storage.from('phone-images').getPublicUrl(fileName);
+      payload.image_url = urlData.publicUrl;
+    }
+
+    statusEl.textContent = 'Фиристода истодааст...';
     const { error } = await sb.from('phones').insert([payload]);
     if(error) throw error;
     statusEl.textContent = 'Эълон бо муваффақият нашр шуд!';
     document.getElementById('mk-form').reset();
+    document.getElementById('mk-image-preview').style.display = 'none';
     document.getElementById('mk-form-wrap').style.display = 'none';
     loadListings();
   }catch(err){
@@ -551,7 +585,7 @@ const translations = {
     mk_p:"Ин феҳрист аз тарафи худи савдогарон пур мешавад. SOMONmobi онҳоро тафтиш намекунад — пеш аз харид бо фурӯшанда мустақим тамос гиред.",
     mk_add_btn:"+ Телефони худро илова кунед", mk_form_title:"Маълумоти телефони худро дароред",
     mk_lbl_seller:"Номи шумо / мағоза", mk_lbl_shop:"Суроғаи мағоза", mk_lbl_phone:"Рақами телефони шумо",
-    mk_lbl_model:"Номи телефон (модел)", mk_lbl_price:"Нарх (сомонӣ)", mk_lbl_desc:"Тавсиф (ҳолат, ранг ва ғайра)",
+    mk_lbl_model:"Номи телефон (модел)", mk_lbl_price:"Нарх (сомонӣ)", mk_lbl_desc:"Тавсиф (ҳолат, ранг ва ғайра)", mk_lbl_image:"Сурати телефон (ихтиёрӣ)",
     mk_submit:"Эълонро нашр кун", mk_loading:"Эълонҳо бор мешаванд...", mk_empty:"Ҳанӯз ҳеҷ эълоне нест — аввалин шавед!",
     nav_cta:"Тамос гирифтан",
     hero_eyebrow:"Мағоза ва хизмати ҳифзи телефон",
@@ -603,7 +637,7 @@ const translations = {
     mk_p:"Этот список заполняется самими продавцами. SOMONmobi их не проверяет — перед покупкой свяжитесь с продавцом напрямую.",
     mk_add_btn:"+ Добавить свой телефон", mk_form_title:"Введите данные о своём телефоне",
     mk_lbl_seller:"Ваше имя / магазин", mk_lbl_shop:"Адрес магазина", mk_lbl_phone:"Ваш номер телефона",
-    mk_lbl_model:"Модель телефона", mk_lbl_price:"Цена (сомони)", mk_lbl_desc:"Описание (состояние, цвет и т.д.)",
+    mk_lbl_model:"Модель телефона", mk_lbl_price:"Цена (сомони)", mk_lbl_desc:"Описание (состояние, цвет и т.д.)", mk_lbl_image:"Фото телефона (необязательно)",
     mk_submit:"Опубликовать объявление", mk_loading:"Объявления загружаются...", mk_empty:"Пока нет объявлений — станьте первым!",
     nav_cta:"Связаться",
     hero_eyebrow:"Магазин и защита телефона",
@@ -655,7 +689,7 @@ const translations = {
     mk_p:"This list is filled in by sellers themselves. SOMONmobi does not verify them — contact the seller directly before buying.",
     mk_add_btn:"+ List your phone", mk_form_title:"Enter your phone's details",
     mk_lbl_seller:"Your name / shop", mk_lbl_shop:"Shop address", mk_lbl_phone:"Your phone number",
-    mk_lbl_model:"Phone model", mk_lbl_price:"Price (somoni)", mk_lbl_desc:"Description (condition, color, etc.)",
+    mk_lbl_model:"Phone model", mk_lbl_price:"Price (somoni)", mk_lbl_desc:"Description (condition, color, etc.)", mk_lbl_image:"Phone photo (optional)",
     mk_submit:"Publish listing", mk_loading:"Loading listings...", mk_empty:"No listings yet — be the first!",
     nav_cta:"Get in touch",
     hero_eyebrow:"Phone store and protection service",
