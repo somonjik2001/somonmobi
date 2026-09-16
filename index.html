@@ -419,6 +419,10 @@
 
     </div>
     <p style="text-align:center; color:var(--grey); font-size:13px; margin-top:26px;" data-i18n="ins_exclusion">⚠️ Гум шудан ё дуздии телефон дар ҳарду план дохил намешавад.</p>
+    <p style="text-align:center; margin-top:10px;">
+      <a href="#" id="ins-terms-toggle" style="color:var(--gold-light); font-size:13px; font-weight:600; text-decoration:underline;" data-i18n="ins_terms_link">⚠️ Муҳим — шартҳои таъмир</a>
+    </p>
+    <p id="ins-terms-text" style="display:none; text-align:center; color:var(--grey); font-size:13px; max-width:560px; margin:14px auto 0; line-height:1.6; background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:16px 20px;" data-i18n="ins_terms_text">Таъмир танҳо аз тарафи SOMONmobi анҷом дода мешавад. Агар пеш аз баррасии мо телефон ба устои дигар бурда шавад ё кушода шавад, суғурта беэътибор дониста мешавад ва ҳеҷ гуна ҳақдорӣ вуҷуд надорад.</p>
   </div>
 </section>
   </div>
@@ -631,6 +635,15 @@ if(insPriceInput){
     });
   });
 }
+
+const insTermsToggle = document.getElementById('ins-terms-toggle');
+if(insTermsToggle){
+  insTermsToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    const textEl = document.getElementById('ins-terms-text');
+    textEl.style.display = textEl.style.display === 'none' ? 'block' : 'none';
+  });
+}
 </script>
 
 <script>
@@ -673,6 +686,7 @@ const translations = {
     ins_period_1y:" / 1 сол", ins_of_price2:"аз нархи телефон",
     cov_screen2:"Шикастани экран", cov_water:"Зарари об", cov_damage:"Вайроншавии тасодуфӣ", cov_electric:"Зарари барқ/кӯтоҳшавӣ",
     ins_exclusion:"⚠️ Гум шудан ё дуздии телефон дар ҳарду план дохил намешавад.",
+    ins_terms_link:"⚠️ Муҳим — шартҳои таъмир", ins_terms_text:"Таъмир танҳо аз тарафи SOMONmobi анҷом дода мешавад. Агар пеш аз баррасии мо телефон ба устои дигар бурда шавад ё кушода шавад, суғурта беэътибор дониста мешавад ва ҳеҷ гуна ҳақдорӣ вуҷуд надорад.",
     plan2_name:"Пурра", plan2_desc:"Ҳифзи комил — экран, об, батарея ва боз дигар ҷузъҳо.",
     plan2_li1:"<b>Экран, об, батарея</b> пӯшонида мешаванд", plan2_li2:"Дархости беохир дар давоми 6 моҳ",
     plan2_li3:"Таъмир дар давоми 2 рӯз", plan2_li4:"Телефони муваққатӣ ҳангоми таъмир",
@@ -733,6 +747,7 @@ const translations = {
     ins_period_1y:" / 1 год", ins_of_price2:"от цены телефона",
     cov_screen2:"Разбитый экран", cov_water:"Повреждение водой", cov_damage:"Случайное повреждение", cov_electric:"Повреждение от короткого замыкания",
     ins_exclusion:"⚠️ Утеря или кража телефона не покрывается ни одним из планов.",
+    ins_terms_link:"⚠️ Важно — условия ремонта", ins_terms_text:"Ремонт производится только специалистами SOMONmobi. Если телефон до нашей оценки был передан другому мастеру или вскрыт, страховка считается недействительной и никакая компенсация не выплачивается.",
     plan2_name:"Полный", plan2_desc:"Полная защита — экран, вода, батарея и другие детали.",
     plan2_li1:"<b>Экран, вода, батарея</b> покрываются", plan2_li2:"Неограниченные обращения в течение 6 месяцев",
     plan2_li3:"Ремонт в течение 2 дней", plan2_li4:"Временный телефон на время ремонта",
@@ -793,6 +808,7 @@ const translations = {
     ins_period_1y:" / 1 year", ins_of_price2:"of phone price",
     cov_screen2:"Cracked screen", cov_water:"Water damage", cov_damage:"Accidental damage", cov_electric:"Electrical/short-circuit damage",
     ins_exclusion:"⚠️ Loss or theft of the phone is not covered by either plan.",
+    ins_terms_link:"⚠️ Important — repair terms", ins_terms_text:"Repairs are carried out only by SOMONmobi technicians. If the phone is taken to another repair shop or opened before our assessment, the insurance is considered void and no compensation will be paid.",
     plan2_name:"Full", plan2_desc:"Complete protection — screen, water, battery and more.",
     plan2_li1:"<b>Screen, water, battery</b> covered", plan2_li2:"Unlimited claims for 6 months",
     plan2_li3:"Repair within 2 days", plan2_li4:"Loaner phone during repair",
