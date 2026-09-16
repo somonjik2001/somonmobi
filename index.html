@@ -97,6 +97,10 @@
   .plan-price{font-family:'Marcellus',serif; font-size:32px; color:var(--gold-light); margin-bottom:2px;}
   .plan-price span{font-size:13px; font-weight:500; color:var(--grey); font-family:'Inter',sans-serif;}
   .plan-list{margin:22px 0; flex-grow:1;}
+  .ins-price-rows{margin:18px 0 20px; border:1px solid var(--line); border-radius:5px; overflow:hidden;}
+  .ins-price-row{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; font-size:14px; color:var(--cream);}
+  .ins-price-row:first-child{border-bottom:1px dashed var(--line);}
+  .ins-price-row span:last-child{font-family:'Marcellus',serif; color:var(--gold-light); font-size:17px;}
   .plan-list li{font-size:13.5px; padding:9px 0; border-bottom:1px solid var(--line); color:var(--cream);}
   .plan-list li:last-child{border-bottom:none;}
   .plan-list li b{color:var(--gold-light);}
@@ -355,49 +359,68 @@
     <div class="sec-head">
       <div class="kicker" data-i18n="ins_kicker">Ҳифзи телефон</div>
       <h2 data-i18n="ins_h2">Планҳои суғуртаи телефон</h2>
-      <p data-i18n="ins_p">Новобаста аз он ки телефонро аз мо харидед ё не, метавонед онро зери ҳифзи мо гиред.</p>
+      <p data-i18n="ins_p">Нархро аз рӯи арзиши телефони худ ҳисоб кунед — шаффоф, бе ҳеҷ чизи пинҳон.</p>
     </div>
-    <div class="plans-grid">
+
+    <div style="background:var(--bg); border:1px solid var(--gold); border-radius:8px; padding:26px 30px; margin-bottom:36px; display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:220px;">
+        <label style="font-size:13px; color:var(--grey); display:block; margin-bottom:8px;" data-i18n="ins_calc_label">Нархи телефони шумо (сомонӣ)</label>
+        <input id="ins-price-input" type="number" min="0" placeholder="5000" style="width:100%; background:var(--bg-2); border:1px solid var(--line); color:var(--white); font-size:22px; font-family:'Marcellus',serif; padding:12px 16px; border-radius:4px;">
+      </div>
+      <div style="font-size:13px; color:var(--grey); max-width:260px;" data-i18n="ins_calc_hint">Нархро дароред — суғурта худкор ҳисоб мешавад ↓</div>
+    </div>
+
+    <div class="plans-grid" style="grid-template-columns:repeat(2,1fr);">
 
       <div class="plan">
-        <h3 data-i18n="plan1_name">Асосӣ</h3>
-        <p class="p-desc" data-i18n="plan1_desc">Барои онҳое, ки танҳо аз шикастани экран метарсанд.</p>
-        <div class="plan-price">25 c.<span data-i18n="per_month">/ моҳ</span></div>
+        <div style="font-size:30px; margin-bottom:10px;">📱</div>
+        <h3 data-i18n="plan_screen_name">Танҳо экран</h3>
+        <p class="p-desc" data-i18n="plan_screen_desc">Барои онҳое, ки танҳо аз шикастани экран метарсанд.</p>
+        <div class="ins-price-rows">
+          <div class="ins-price-row">
+            <span><b data-i18n="ins_dur_6mo">6 моҳ</b> · 7%</span>
+            <span><span id="ins-screen-6mo">—</span> c.</span>
+          </div>
+          <div class="ins-price-row">
+            <span><b data-i18n="ins_dur_1y">1 сол</b> · 12%</span>
+            <span><span id="ins-screen-1y">—</span> c.</span>
+          </div>
+        </div>
         <ul class="plan-list">
-          <li data-i18n="plan1_li1"><b>Шикастани экран</b> пӯшонида мешавад</li>
-          <li data-i18n="plan1_li2">Ду дархост дар як сол</li>
-          <li data-i18n="plan1_li3">Таъмир дар давоми 3 рӯз</li>
+          <li>📱 <span data-i18n="cov_screen">Шикастани экран пӯшонида мешавад</span></li>
         </ul>
         <a href="#contact" class="btn btn-line" data-i18n="plan_choose">Ин планро интихоб кун</a>
       </div>
 
       <div class="plan featured">
         <span class="plan-badge-top" data-i18n="badge_popular2">Маъмултарин</span>
-        <h3 data-i18n="plan2_name">Пурра</h3>
-        <p class="p-desc" data-i18n="plan2_desc">Ҳифзи комил — экран, об, батарея ва боз дигар ҷузъҳо.</p>
-        <div class="plan-price">45 c.<span data-i18n="per_month2">/ моҳ</span></div>
+        <div style="font-size:30px; margin-bottom:10px;">🛡️</div>
+        <h3 data-i18n="plan_full_name">Суғуртаи пурра</h3>
+        <p class="p-desc" data-i18n="plan_full_desc">Экран, камера, корпус, об ва дигар зарари тасодуфӣ.</p>
+        <div class="ins-price-rows">
+          <div class="ins-price-row">
+            <span><b data-i18n="ins_dur_6mo">6 моҳ</b> · 10%</span>
+            <span><span id="ins-full-6mo">—</span> c.</span>
+          </div>
+          <div class="ins-price-row">
+            <span><b data-i18n="ins_dur_1y">1 сол</b> · 18%</span>
+            <span><span id="ins-full-1y">—</span> c.</span>
+          </div>
+        </div>
         <ul class="plan-list">
-          <li data-i18n="plan2_li1"><b>Экран, об, батарея</b> пӯшонида мешаванд</li>
-          <li data-i18n="plan2_li2">Дархости беохир дар давоми 6 моҳ</li>
-          <li data-i18n="plan2_li3">Таъмир дар давоми 2 рӯз</li>
-          <li data-i18n="plan2_li4">Телефони муваққатӣ ҳангоми таъмир</li>
+          <li>📱 <span data-i18n="cov_screen2">Экран</span></li>
+          <li>📷 <span data-i18n="cov_camera">Камера</span></li>
+          <li>🛠 <span data-i18n="cov_body">Корпус</span></li>
+          <li>💧 <span data-i18n="cov_water">Зарари об</span></li>
+          <li>🎲 <span data-i18n="cov_other">Дигар зарари тасодуфӣ</span></li>
         </ul>
         <a href="#contact" class="btn btn-gold" data-i18n="plan_choose">Ин планро интихоб кун</a>
       </div>
 
-      <div class="plan">
-        <h3 data-i18n="plan3_name">Бизнес</h3>
-        <p class="p-desc" data-i18n="plan3_desc">Барои телефонҳои гаронбаҳо (iPhone, Samsung флагман).</p>
-        <div class="plan-price">70 c.<span data-i18n="per_month3">/ моҳ</span></div>
-        <ul class="plan-list">
-          <li data-i18n="plan3_li1">Ҳама намуди осеб пӯшонида мешавад</li>
-          <li data-i18n="plan3_li2">Дар сурати гум шудан — 50% арзиш баргардонида мешавад</li>
-          <li data-i18n="plan3_li3">Таъмир дар давоми 24 соат</li>
-        </ul>
-        <a href="#contact" class="btn btn-line" data-i18n="plan_choose">Ин планро интихоб кун</a>
-      </div>
-
     </div>
+    <p style="text-align:center; color:var(--grey); font-size:13px; margin-top:26px;" data-i18n="ins_exclusion">⚠️ Гум шудан ё дуздии телефон дар ҳарду план дохил намешавад.</p>
+  </div>
+</section>
   </div>
 </section>
 
@@ -590,6 +613,24 @@ document.getElementById('mk-form').addEventListener('submit', async (e) => {
 });
 
 loadListings();
+
+const insPriceInput = document.getElementById('ins-price-input');
+if(insPriceInput){
+  insPriceInput.addEventListener('input', function(){
+    const price = parseFloat(this.value) || 0;
+    const ids = {
+      'ins-screen-6mo': 0.07,
+      'ins-screen-1y': 0.12,
+      'ins-full-6mo': 0.10,
+      'ins-full-1y': 0.18
+    };
+    Object.keys(ids).forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.textContent = price > 0 ? Math.round(price * ids[id]).toLocaleString() : '—';
+    });
+  });
+}
 </script>
 
 <script>
@@ -620,10 +661,18 @@ const translations = {
     permonth4:"ё 355 с./моҳ", permonth5:"ё 283 с./моҳ", permonth6:"ё 258 с./моҳ",
     order_btn:"Фармоиш",
     ins_kicker:"Ҳифзи телефон", ins_h2:"Планҳои суғуртаи телефон",
-    ins_p:"Новобаста аз он ки телефонро аз мо харидед ё не, метавонед онро зери ҳифзи мо гиред.",
+    ins_p:"Нархро аз рӯи арзиши телефони худ ҳисоб кунед — шаффоф, бе ҳеҷ чизи пинҳон.",
     plan1_name:"Асосӣ", plan1_desc:"Барои онҳое, ки танҳо аз шикастани экран метарсанд.",
     plan1_li1:"<b>Шикастани экран</b> пӯшонида мешавад", plan1_li2:"Ду дархост дар як сол", plan1_li3:"Таъмир дар давоми 3 рӯз",
     badge_popular2:"Маъмултарин",
+    ins_calc_label:"Нархи телефони шумо (сомонӣ)", ins_calc_hint:"Нархро дароред — суғурта худкор ҳисоб мешавад ↓",
+    plan_screen_name:"Танҳо экран", plan_screen_desc:"Барои онҳое, ки танҳо аз шикастани экран метарсанд.",
+    ins_period_6mo:" / 6 моҳ", ins_of_price:"аз нархи телефон", cov_screen:"Шикастани экран пӯшонида мешавад",
+    plan_full_name:"Суғуртаи пурра", plan_full_desc:"Экран, камера, корпус, об ва дигар зарари тасодуфӣ.",
+    ins_dur_6mo:"6 моҳ", ins_dur_1y:"1 сол", cov_camera:"Камера", cov_body:"Корпус", cov_other:"Дигар зарари тасодуфӣ",
+    ins_period_1y:" / 1 сол", ins_of_price2:"аз нархи телефон",
+    cov_screen2:"Шикастани экран", cov_water:"Зарари об", cov_damage:"Вайроншавии тасодуфӣ", cov_electric:"Зарари барқ/кӯтоҳшавӣ",
+    ins_exclusion:"⚠️ Гум шудан ё дуздии телефон дар ҳарду план дохил намешавад.",
     plan2_name:"Пурра", plan2_desc:"Ҳифзи комил — экран, об, батарея ва боз дигар ҷузъҳо.",
     plan2_li1:"<b>Экран, об, батарея</b> пӯшонида мешаванд", plan2_li2:"Дархости беохир дар давоми 6 моҳ",
     plan2_li3:"Таъмир дар давоми 2 рӯз", plan2_li4:"Телефони муваққатӣ ҳангоми таъмир",
@@ -672,10 +721,18 @@ const translations = {
     permonth4:"или 355 с./мес.", permonth5:"или 283 с./мес.", permonth6:"или 258 с./мес.",
     order_btn:"Заказать",
     ins_kicker:"Защита телефона", ins_h2:"Планы страховки телефона",
-    ins_p:"Независимо от того, купили вы телефон у нас или нет, вы можете взять его под нашу защиту.",
+    ins_p:"Рассчитайте стоимость исходя из цены вашего телефона — прозрачно, без скрытых условий.",
     plan1_name:"Базовый", plan1_desc:"Для тех, кто боится только разбить экран.",
     plan1_li1:"<b>Разбитый экран</b> покрывается", plan1_li2:"Два обращения в год", plan1_li3:"Ремонт в течение 3 дней",
     badge_popular2:"Популярный",
+    ins_calc_label:"Цена вашего телефона (сомони)", ins_calc_hint:"Введите цену — страховка рассчитается автоматически ↓",
+    plan_screen_name:"Только экран", plan_screen_desc:"Для тех, кто боится только разбить экран.",
+    ins_period_6mo:" / 6 мес.", ins_of_price:"от цены телефона", cov_screen:"Разбитый экран покрывается",
+    plan_full_name:"Полная страховка", plan_full_desc:"Экран, камера, корпус, вода и другие случайные повреждения.",
+    ins_dur_6mo:"6 мес.", ins_dur_1y:"1 год", cov_camera:"Камера", cov_body:"Корпус", cov_other:"Другие случайные повреждения",
+    ins_period_1y:" / 1 год", ins_of_price2:"от цены телефона",
+    cov_screen2:"Разбитый экран", cov_water:"Повреждение водой", cov_damage:"Случайное повреждение", cov_electric:"Повреждение от короткого замыкания",
+    ins_exclusion:"⚠️ Утеря или кража телефона не покрывается ни одним из планов.",
     plan2_name:"Полный", plan2_desc:"Полная защита — экран, вода, батарея и другие детали.",
     plan2_li1:"<b>Экран, вода, батарея</b> покрываются", plan2_li2:"Неограниченные обращения в течение 6 месяцев",
     plan2_li3:"Ремонт в течение 2 дней", plan2_li4:"Временный телефон на время ремонта",
@@ -724,10 +781,18 @@ const translations = {
     permonth4:"or 355 s./mo", permonth5:"or 283 s./mo", permonth6:"or 258 s./mo",
     order_btn:"Order",
     ins_kicker:"Phone protection", ins_h2:"Phone insurance plans",
-    ins_p:"Whether you bought your phone from us or not, you can put it under our protection.",
+    ins_p:"Calculate the price based on your phone's value — transparent, with nothing hidden.",
     plan1_name:"Basic", plan1_desc:"For those who only worry about a cracked screen.",
     plan1_li1:"<b>Cracked screen</b> is covered", plan1_li2:"Two claims per year", plan1_li3:"Repair within 3 days",
     badge_popular2:"Most popular",
+    ins_calc_label:"Your phone's price (somoni)", ins_calc_hint:"Enter the price — insurance is calculated automatically ↓",
+    plan_screen_name:"Screen only", plan_screen_desc:"For those who only worry about a cracked screen.",
+    ins_period_6mo:" / 6 months", ins_of_price:"of phone price", cov_screen:"Cracked screen is covered",
+    plan_full_name:"Full insurance", plan_full_desc:"Screen, camera, body, water and other accidental damage.",
+    ins_dur_6mo:"6 months", ins_dur_1y:"1 year", cov_camera:"Camera", cov_body:"Body", cov_other:"Other accidental damage",
+    ins_period_1y:" / 1 year", ins_of_price2:"of phone price",
+    cov_screen2:"Cracked screen", cov_water:"Water damage", cov_damage:"Accidental damage", cov_electric:"Electrical/short-circuit damage",
+    ins_exclusion:"⚠️ Loss or theft of the phone is not covered by either plan.",
     plan2_name:"Full", plan2_desc:"Complete protection — screen, water, battery and more.",
     plan2_li1:"<b>Screen, water, battery</b> covered", plan2_li2:"Unlimited claims for 6 months",
     plan2_li3:"Repair within 2 days", plan2_li4:"Loaner phone during repair",
