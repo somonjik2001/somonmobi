@@ -8,14 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F6F1E7;
-    --bg-2:#FDFAF3;
+    --bg:#FAFAF8;
+    --bg-2:#FFFFFF;
     --gold:#C9A24A;
     --gold-light:#87661F;
-    --cream:#2A241B;
-    --grey:#6E6556;
-    --line:#E4DACA;
-    --white:#17130D;
+    --cream:#13233A;
+    --grey:#5B6678;
+    --line:#E3E6EC;
+    --white:#13233A;
+    --navy:#0F1E33;
+    --navy-2:#1B355A;
+    --gold-on-navy:#E2C27A;
+    --soft-on-navy:#B3BED0;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -162,6 +166,35 @@
     .hero-stats{gap:26px;}
     .cta{padding:34px; flex-direction:column; align-items:flex-start;}
   }
+
+  /* Navy theme: header, hero, CTA ва footer — кабуди торик бо акценти заррин */
+  header{background:var(--navy); border-bottom-color:var(--navy); backdrop-filter:none; -webkit-backdrop-filter:none;}
+  header .nav-links a{color:#EEF0F3;}
+  .nav-phone,.brand-word,.icon-btn,.lang-globe-current{color:var(--gold-on-navy);}
+  .icon-btn,.lang-globe-btn{border-color:rgba(255,255,255,.22);}
+  .lang-globe-btn{color:#FFFFFF;}
+  .hero{background:radial-gradient(ellipse 60% 80% at 85% 40%, rgba(201,162,74,.22), transparent 70%), linear-gradient(160deg, var(--navy), var(--navy-2)); border-bottom:none;}
+  .hero h1{color:#FFFFFF;}
+  .hero p,.stat span{color:var(--soft-on-navy);}
+  .eyebrow-plain,.stat b{color:var(--gold-on-navy);}
+  .hero .btn-line{color:#FFFFFF; background:transparent; border-color:rgba(255,255,255,.35);}
+  .alt{background:#F1F3F6;}
+  .p-card{border-color:transparent; box-shadow:0 2px 14px rgba(15,30,51,.06);}
+  .p-card:hover{box-shadow:0 14px 32px -12px rgba(15,30,51,.2);}
+  .cta{background:linear-gradient(135deg, var(--navy), var(--navy-2)); border:none;}
+  .cta h2{color:#FFFFFF;}
+  .cta p{color:var(--soft-on-navy);}
+  footer{background:var(--navy); border-top:none; --grey:var(--soft-on-navy);}
+  .foot-col h4{color:#FFFFFF;}
+  .foot-col li{color:var(--soft-on-navy);}
+  .foot-brand span{color:var(--gold-on-navy);}
+  .foot-bottom{color:var(--soft-on-navy); border-top-color:rgba(255,255,255,.12);}
+  .p-card,.plan{border-radius:14px;}
+  .p-thumb{border-radius:10px; border:none;}
+  .cta{border-radius:18px;}
+  .btn,.p-buy{border-radius:999px;}
+  .modal-box{border-radius:16px;}
+  img[src*="somonmobi-logo"]{clip-path:inset(0 0 4% 0);}
   @media (prefers-reduced-motion: reduce){*{transition:none !important;}}
 </style>
 </head>
