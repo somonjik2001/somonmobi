@@ -196,6 +196,34 @@
   .modal-box{border-radius:16px;}
   img[src*="somonmobi-logo"]{clip-path:inset(0 0 4% 0);}
 
+  /* Side menu (3 хатча) */
+  .menu-btn{display:flex; flex-direction:column; justify-content:center; gap:5px; width:40px; height:40px; padding:0 9px; margin-right:4px; background:transparent; border:none; cursor:pointer; border-radius:10px; transition:background .15s;}
+  .menu-btn span{display:block; height:2px; border-radius:2px; background:var(--gold-on-navy); transition:width .2s;}
+  .menu-btn span:nth-child(1){width:22px;} .menu-btn span:nth-child(2){width:16px;} .menu-btn span:nth-child(3){width:11px;}
+  .menu-btn:hover{background:rgba(255,255,255,.06);} .menu-btn:hover span{width:22px;}
+  .menu-btn:focus-visible{outline:2px solid var(--gold-on-navy); outline-offset:2px;}
+  .nav-left{display:flex; align-items:center; gap:6px;}
+  @media(max-width:520px){ .nav{padding:12px 14px; gap:8px;} .nav-right{gap:8px;} .brand img{display:none;} .brand-word{font-size:17px;} .menu-btn{margin-right:0;} }
+  .side-overlay{position:fixed; inset:0; background:rgba(8,14,26,.55); z-index:400; opacity:0; visibility:hidden; transition:opacity .25s, visibility 0s linear .25s;}
+  .side-menu{position:fixed; top:0; left:0; bottom:0; width:min(340px, 86vw); z-index:401; background:linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%); color:#EEF0F3; transform:translateX(-102%); transition:transform .3s cubic-bezier(.2,.8,.2,1); overflow-y:auto; display:flex; flex-direction:column; visibility:hidden; transition:transform .3s cubic-bezier(.2,.8,.2,1), visibility 0s linear .3s;}
+  body.menu-open .side-overlay{opacity:1; visibility:visible; transition:opacity .25s;}
+  body.menu-open .side-menu{transform:none; visibility:visible; box-shadow:20px 0 50px -20px rgba(0,0,0,.5); transition:transform .3s cubic-bezier(.2,.8,.2,1), visibility 0s;}
+  body.menu-open{overflow:hidden;}
+  .side-head{display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:1px solid rgba(255,255,255,.1);}
+  .side-head .brand-word{font-size:18px;}
+  .side-close{width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.2); background:transparent; color:var(--gold-on-navy); font-size:22px; line-height:1; cursor:pointer;}
+  .side-close:hover{border-color:var(--gold);}
+  .side-sec{padding:20px 20px 6px;}
+  .side-sec h4{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-on-navy); margin-bottom:10px;}
+  .side-links a{display:flex; align-items:center; gap:14px; padding:12px 10px; margin:0 -10px; border-radius:10px; font-size:15.5px; color:#FFFFFF; transition:background .15s;}
+  .side-links a:hover{background:rgba(201,162,74,.12);}
+  .side-num{font-family:'Marcellus',serif; font-size:13px; color:var(--gold-on-navy); width:20px;}
+  .side-info li{display:flex; gap:12px; align-items:flex-start; padding:9px 0; font-size:14px; color:var(--soft-on-navy); border-bottom:1px solid rgba(255,255,255,.07);}
+  .side-info li:last-child{border-bottom:none;}
+  .side-info a{color:#FFFFFF;} .side-info a:hover{color:var(--gold-on-navy);}
+  .side-ico{flex:none; width:20px; text-align:center;}
+  .side-foot{margin-top:auto; padding:20px; font-size:12px; color:var(--soft-on-navy); border-top:1px solid rgba(255,255,255,.1);}
+
   /* Floating chat button: пахш кунед — Telegram ва WhatsApp пайдо мешаванд */
   .chat-dial{position:fixed; bottom:20px; right:20px; z-index:250; display:flex; flex-direction:column; align-items:center; gap:12px;}
   .chat-fab{position:relative; width:60px; height:60px; border-radius:50%; border:none; padding:0; cursor:pointer; background:var(--gold); color:var(--navy); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px -8px rgba(15,30,51,.55), 0 0 0 4px rgba(201,162,74,.18); transition:transform .2s ease, box-shadow .2s ease, background .2s ease;}
@@ -222,9 +250,12 @@
 
 <header>
   <div class="nav wrap">
-    <div class="brand">
-      <img src="assets/somonmobi-logo-transparent.png" alt="SOMONmobi">
-      <span class="brand-word">SOMONmobi</span>
+    <div class="nav-left">
+      <button class="menu-btn" id="menu-open-btn" type="button" aria-label="Меню" aria-controls="side-menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <div class="brand">
+        <img src="assets/somonmobi-logo-transparent.png" alt="SOMONmobi">
+        <span class="brand-word">SOMONmobi</span>
+      </div>
     </div>
     <nav class="nav-links">
       <a href="#catalog" data-i18n="nav_catalog">Телефонҳо</a>
@@ -254,6 +285,41 @@
     </div>
   </div>
 </header>
+
+<div class="side-overlay" id="side-overlay"></div>
+<aside class="side-menu" id="side-menu" aria-hidden="true">
+  <div class="side-head">
+    <span class="brand-word">SOMONmobi</span>
+    <button class="side-close" id="menu-close-btn" type="button" aria-label="Пӯшидан">&times;</button>
+  </div>
+  <div class="side-sec">
+    <h4 data-i18n="menu_h">Меню</h4>
+    <nav class="side-links">
+      <a href="#catalog"><span class="side-num">01</span><span data-i18n="nav_catalog">Телефонҳо</span></a>
+      <a href="#marketplace"><span class="side-num">02</span><span data-i18n="nav_marketplace">Эълонҳо</span></a>
+      <a href="#insurance"><span class="side-num">03</span><span data-i18n="nav_insurance">Суғурта</span></a>
+      <a href="#how"><span class="side-num">04</span><span data-i18n="nav_how">Тартиби кор</span></a>
+      <a href="#contact"><span class="side-num">05</span><span data-i18n="nav_contact">Тамос</span></a>
+    </nav>
+  </div>
+  <div class="side-sec">
+    <h4 data-i18n="foot_contact_h">Тамос</h4>
+    <ul class="side-info">
+      <li><span class="side-ico">📞</span><a href="https://wa.me/992555600000" target="_blank" rel="noopener">+992 55 560 00 00 (WhatsApp)</a></li>
+      <li><span class="side-ico">✈️</span><a href="https://t.me/somonmobi" target="_blank" rel="noopener">Telegram: @somonmobi</a></li>
+      <li><span class="side-ico">📷</span><a href="https://instagram.com/somonmobi" target="_blank" rel="noopener">Instagram: @somonmobi</a></li>
+      <li><span class="side-ico">✉️</span><a href="mailto:somonmobi@gmail.com">somonmobi@gmail.com</a></li>
+    </ul>
+  </div>
+  <div class="side-sec">
+    <h4 data-i18n="foot_address_h">Суроға</h4>
+    <ul class="side-info">
+      <li><span class="side-ico">📍</span><span data-i18n="foot_address1">ш. Душанбе, н. Шоҳмансур, маркази савдои «САДБАРГ», мағозаи SOMON</span></li>
+      <li><span class="side-ico">🕘</span><span data-i18n="foot_hours">Ҳар рӯз, 9:00–20:00</span></li>
+    </ul>
+  </div>
+  <div class="side-foot" data-i18n="foot_bottom">© 2026 SOMONmobi. Ҳамаи ҳуқуқҳо ҳифз шудаанд.</div>
+</aside>
 
 <section class="hero">
   <div class="hero-grid">
@@ -921,7 +987,7 @@ renderProfileButton();
 <script>
 const translations = {
   tg: {
-    nav_catalog:"Телефонҳо", nav_marketplace:"Эълонҳо", nav_insurance:"Суғурта", nav_how:"Тартиби кор", nav_contact:"Тамос",
+    nav_catalog:"Телефонҳо", nav_marketplace:"Эълонҳо", nav_insurance:"Суғурта", nav_how:"Тартиби кор", nav_contact:"Тамос", menu_h:"Меню",
     mk_kicker:"Эълонҳои савдогарон", mk_h2:"Дигар мағозаҳо телефони худро ин ҷо мефурӯшанд",
     mk_p:"Ин феҳрист аз тарафи худи савдогарон пур мешавад. SOMONmobi онҳоро тафтиш намекунад — пеш аз харид бо фурӯшанда мустақим тамос гиред.",
     mk_add_btn:"+ Телефони худро илова кунед", mk_form_title:"Маълумоти телефони худро дароред",
@@ -986,7 +1052,7 @@ const translations = {
     profile_logout:"Баромадан"
   },
   ru: {
-    nav_catalog:"Телефоны", nav_marketplace:"Объявления", nav_insurance:"Страховка", nav_how:"Как это работает", nav_contact:"Контакты",
+    nav_catalog:"Телефоны", nav_marketplace:"Объявления", nav_insurance:"Страховка", nav_how:"Как это работает", nav_contact:"Контакты", menu_h:"Меню",
     mk_kicker:"Объявления продавцов", mk_h2:"Другие магазины продают свои телефоны здесь",
     mk_p:"Этот список заполняется самими продавцами. SOMONmobi их не проверяет — перед покупкой свяжитесь с продавцом напрямую.",
     mk_add_btn:"+ Добавить свой телефон", mk_form_title:"Введите данные о своём телефоне",
@@ -1051,7 +1117,7 @@ const translations = {
     profile_logout:"Выйти"
   },
   en: {
-    nav_catalog:"Phones", nav_marketplace:"Listings", nav_insurance:"Insurance", nav_how:"How it works", nav_contact:"Contact",
+    nav_catalog:"Phones", nav_marketplace:"Listings", nav_insurance:"Insurance", nav_how:"How it works", nav_contact:"Contact", menu_h:"Menu",
     mk_kicker:"Seller listings", mk_h2:"Other shops sell their phones here",
     mk_p:"This list is filled in by sellers themselves. SOMONmobi does not verify them — contact the seller directly before buying.",
     mk_add_btn:"+ List your phone", mk_form_title:"Enter your phone's details",
@@ -1202,6 +1268,27 @@ setLanguage(savedLang);
   items.forEach(a => a.addEventListener('click', () => setOpen(false)));
   document.addEventListener('click', (e) => { if(!dial.contains(e.target)) setOpen(false); });
   document.addEventListener('keydown', (e) => { if(e.key === 'Escape') setOpen(false); });
+})();
+</script>
+
+<script>
+(function(){
+  const openBtn = document.getElementById('menu-open-btn');
+  const closeBtn = document.getElementById('menu-close-btn');
+  const overlay = document.getElementById('side-overlay');
+  const menu = document.getElementById('side-menu');
+  if(!openBtn || !menu) return;
+  function setMenu(open){
+    document.body.classList.toggle('menu-open', open);
+    openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if(open) closeBtn.focus();
+  }
+  openBtn.addEventListener('click', () => setMenu(true));
+  closeBtn.addEventListener('click', () => setMenu(false));
+  overlay.addEventListener('click', () => setMenu(false));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && document.body.classList.contains('menu-open')) setMenu(false); });
 })();
 </script>
 
